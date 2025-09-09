@@ -50,9 +50,9 @@ func (l *Lexer) NextToken() token.Token {
 
 	switch l.ch {
 	case '=':
-		l.makeTwoCharToken('=', token.EQ, token.ASSIGN)
+		tok = l.makeTwoCharToken('=', token.EQ, token.ASSIGN)
 	case '!':
-		l.makeTwoCharToken('=', token.NOT_EQ, token.BANG)
+		tok = l.makeTwoCharToken('=', token.NOT_EQ, token.BANG)
 	case '+':
 		tok = newToken(token.PLUS, l.ch)
 	case '-':
