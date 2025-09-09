@@ -15,34 +15,6 @@ func New(input string) *Lexer {
 	return l
 }
 
-func (l *Lexer) readChar() {
-	if l.readPosition >= len(l.input) {
-		l.ch = 0
-	} else {
-		l.ch = l.input[l.readPosition]
-	}
-	l.position = l.readPosition
-	l.readPosition += 1
-}
-
-func (l *Lexer) peekChar() byte {
-	if l.readPosition >= len(l.input) {
-		return 0
-	}
-	return l.input[l.readPosition]
-}
-
-func (l *Lexer) makeTwoCharToken(expected byte, twoCharType, oneCharType token.TokenType) token.Token {
-	if l.peekChar() == expected {
-		ch := l.ch
-		l.readChar()
-		literal := string(ch) + string(l.ch)
-		return token.Token{Type: twoCharType, Literal: literal}
-	} else {
-		return newToken(oneCharType, l.ch)
-	}
-}
-
 func (l *Lexer) NextToken() token.Token {
 	var tok token.Token
 
@@ -96,6 +68,34 @@ func (l *Lexer) NextToken() token.Token {
 
 	l.readChar()
 	return tok
+}
+
+func (l *Lexer) readChar() {
+	if l.readPosition >= len(l.input) {
+		l.ch = 0
+	} else {
+		l.ch = l.input[l.readPosition]
+	}
+	l.position = l.readPosition
+	l.readPosition += 1
+}
+
+func (l *Lexer) peekChar() byte {
+	if l.readPosition >= len(l.input) {
+		return 0
+	}
+	return l.input[l.readPosition]
+}
+
+func (l *Lexer) makeTwoCharToken(expected byte, twoCharType, oneCharType token.TokenType) token.Token {
+	if l.peekChar() == expected {
+		ch := l.ch
+		l.readChar()
+		literal := string(ch) + string(l.ch)
+		return token.Token{Type: twoCharType, Literal: literal}
+	} else {
+		return newToken(oneCharType, l.ch)
+	}
 }
 
 func newToken(tokenType token.TokenType, ch byte) token.Token {
